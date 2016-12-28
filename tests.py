@@ -9,6 +9,6 @@ class TestCrawler(TestCase):
 
         self.crawler = Crawler()
 
-    def test_get_response(self, http_verb, url):
+    def test_get_response(self):
         response = self.crawler.get_response()
         self.assertTrue(isinstance(response, Response))
