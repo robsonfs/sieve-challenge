@@ -2,5 +2,6 @@ import requests
 
 class Crawler:
 
-    def get_response(self):
-        return requests.models.Response()
+    def get_response(self, url="http://www.epocacosmeticos.com.br/"):
+        response = requests.get(url)
+        return response
