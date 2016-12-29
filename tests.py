@@ -13,8 +13,9 @@ class TestCrawler(TestCase):
         response = self.crawler.get_response(url="http://localhost")
         self.assertIsInstance(response, Response)
 
-    def test_get_products_category_link(self):
-        pass
+    def test_get_category_links(self):
+        category_links = self.crawler.get_category_links()
+        self.assertIsInstance(category_links, list)
 
     def test_get_product_url(self):
         pass
