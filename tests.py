@@ -1,3 +1,4 @@
+import re
 from unittest import TestCase
 from requests.models import Response
 from bs4 import BeautifulSoup
@@ -9,9 +10,27 @@ class TestCrawler(TestCase):
 
     def setUp(self):
 
+        self.html = """
+        <html>
+            <head><title>Some page title</title></head>
+            <body>
+                <h1>Some title</h1>
+                <p>
+                    some text
+                </p>
+                <p class="links">
+                    <a href="http://link1.com">Link 1</a>
+                    <a href="http://link2.com">Link 2</a>
+                    <a href="https://link3.com">Link 3</a>
+                </p>
+            </body>
+        </html>
+        """
         self.crawler = Crawler()
+        self.regex_url = re.compile(r'^(http|https)://(\w+)\.(\w+)')
 
     def test_crawler_object_has_a_base_url(self):
+        # TODO: The url must be validated at the moment the object is instantiated
         self.assertTrue(is_valid_url(self.crawler.base_url))
 
     def test_get_response(self):
@@ -26,19 +45,14 @@ class TestCrawler(TestCase):
     #     # self.assertTrue(all(is_valid_url(link) for link in category_links))
 
     def test_parse_html(self):
-        html = """
-        <html>
-            <head><title>Some page title</title></head>
-            <body>
-                <h1>Some title</h1>
-                <p>
-                    some text
-                </p>
-            </body>
-        </html>
-        """
-        parsed_html = self.crawler.parse_html(html)
+        parsed_html = self.crawler.parse_html(self.html)
         self.assertIsInstance(parsed_html, BeautifulSoup)
+
+    def test_extract_links_from_a_css_class(self):
+        parsed_html = self.crawler.parse_html(self.html)
+        links = self.crawler.extract_links_from_a_css_class(parsed_html, "links")
+        self.assertIs(len(links), 3)
+        self.assertTrue(all(re.search(self.regex_url, link) for link in links))
 
     def test_get_product_url(self):
         pass
