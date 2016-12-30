@@ -2,12 +2,16 @@ from unittest import TestCase
 from requests.models import Response
 
 from crawler import Crawler
+from scripts import is_valid_url
 
 class TestCrawler(TestCase):
 
     def setUp(self):
 
         self.crawler = Crawler()
+
+    def test_crawler_object_has_a_base_url(self):
+        self.assertTrue(is_valid_url(self.crawler.base_url))
 
     def test_get_response(self):
         response = self.crawler.get_response(url="http://localhost")
