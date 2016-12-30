@@ -10,13 +10,6 @@ class Crawler:
         response = requests.get(url)
         return response
 
-    def get_category_links(self):
-        links = []
-        base_response = self.get_response(self.base_url)
-        parsed_html = self.parse_html(base_response.text)
-        links = self.extract_links_from_a_css_class(parse_html, "sub_dept")
-        return links
-
     def parse_html(self, html_text):
         return BeautifulSoup(html_text, "html.parser")
 

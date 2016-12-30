@@ -37,13 +37,6 @@ class TestCrawler(TestCase):
         response = self.crawler.get_response(url="http://localhost")
         self.assertIsInstance(response, Response)
 
-    # def test_get_category_links(self):
-    #     category_links = self.crawler.get_category_links()
-    #     self.assertIsInstance(category_links, list)
-    #     # TODO: Implementing mock
-    #     # self.assertTrue(category_links)
-    #     # self.assertTrue(all(is_valid_url(link) for link in category_links))
-
     def test_parse_html(self):
         parsed_html = self.crawler.parse_html(self.html)
         self.assertIsInstance(parsed_html, BeautifulSoup)
