@@ -1,4 +1,5 @@
 import requests
+from bs4 import BeautifulSoup
 
 class Crawler:
 
@@ -10,4 +11,6 @@ class Crawler:
         return response
 
     def get_category_links(self):
-        return []
+        links = []
+        base_response = self.get_response(self.base_url)
+        return links

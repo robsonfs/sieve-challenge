@@ -20,6 +20,9 @@ class TestCrawler(TestCase):
     def test_get_category_links(self):
         category_links = self.crawler.get_category_links()
         self.assertIsInstance(category_links, list)
+        # TODO: Implementing mock
+        # self.assertTrue(category_links)
+        # self.assertTrue(all(is_valid_url(link) for link in category_links))
 
     def test_get_product_url(self):
         pass
