@@ -14,3 +14,6 @@ class Crawler:
         links = []
         base_response = self.get_response(self.base_url)
         return links
+
+    def parse_html(self, html_text):
+        return BeautifulSoup(html_text, "html.parser")
