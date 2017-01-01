@@ -1,3 +1,4 @@
+import csv
 from collections import namedtuple
 
 class Products:
@@ -19,3 +20,21 @@ class Products:
             )
             return True
         return False
+
+    def to_csv(self, output_path="outputs/products.csv"):
+        with open(output_path, 'a') as csvfile:
+            fieldnames = ['name', 'title', 'url']
+            writer = csv.DictWriter(
+                csvfile, fieldnames=fieldnames, delimiter=';'
+            )
+
+            writer.writeheader()
+
+            for product in self.products:
+                writer.writerow(
+                    {
+                        'name': product.name,
+                        'title': product.title,
+                        'url': product.url
+                    }
+                )

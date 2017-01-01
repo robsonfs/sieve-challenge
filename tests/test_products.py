@@ -1,4 +1,5 @@
 import unittest
+import os
 from products import Products
 
 class TestProducts(unittest.TestCase):
@@ -27,3 +28,12 @@ class TestProducts(unittest.TestCase):
         self.products.add("Product Name", "Product Title", "Product URL")
         created = self.products.add("Product Name", "Product Title", "Product URL")
         self.assertFalse(created)
+
+    def test_to_csv(self):
+        os.mkdir('tests/outputs/')
+        self.products.add("Product Name", "Product Title", "Product URL")
+        self.products.add("Product Name 2", "Product Title 2", "Product URL 2")
+        self.products.to_csv('tests/outputs/products.csv')
+        self.assertTrue('products.csv' in os.listdir('tests/outputs'))
+        os.remove('tests/outputs/products.csv')
+        os.rmdir('tests/outputs')
