@@ -41,11 +41,17 @@ class TestCrawler(TestCase):
         parsed_html = self.crawler.parse_html(self.html)
         self.assertIsInstance(parsed_html, BeautifulSoup)
 
-    def test_extract_links_from_a_css_class(self):
+    def test_get_urls(self):
         parsed_html = self.crawler.parse_html(self.html)
-        links = self.crawler.extract_links_from_a_css_class(parsed_html, "links")
+        links = self.crawler.get_urls(parsed_html, "links")
         self.assertIs(len(links), 3)
         self.assertTrue(all(re.search(self.regex_url, link) for link in links))
+
+    # def test_get_urls(self):
+    #     parsed_html = self.crawler.parse_html(self.html)
+    #     links = self.crawler.get_urls(parsed_html, "links")
+    #     self.assertIs(len(links), 3)
+    #     self.assertTrue(all(re.search(self.regex_url, link) for link in links))
 
     def test_get_product_url(self):
         pass
