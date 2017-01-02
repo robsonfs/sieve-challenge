@@ -24,8 +24,8 @@ class TestCrawler(TestCase):
                     <a href="https://link3.com">Link 3</a>
                 </p>
                 <a href="http://otherlink1.com">Other Link 1</a>
-                <a href="http://otherlink2.com">Other Link 2</a>
-                <a href="http://otherlink3.com">Other Link 3</a>
+                <a href="http://example.com/patterns/mypatern1">My pattern</a>
+                <a href="http://example.com/patterns/mypatern2">my other pattern</a>
             </body>
         </html>
         """
@@ -54,6 +54,13 @@ class TestCrawler(TestCase):
         parsed_html = self.crawler.parse_html(self.html)
         links = self.crawler.get_urls(parsed_html)
         self.assertIs(len(links), 6)
+        self.assertTrue(all(re.search(self.regex_url, link) for link in links))
+
+    def test_get_urls_with_pattern(self):
+        parsed_html = self.crawler.parse_html(self.html)
+        pattern = re.compile(r'^http://example\.com/patterns/.+')
+        links = self.crawler.get_urls(parsed_html, pattern=pattern)
+        self.assertIs(len(links), 2)
         self.assertTrue(all(re.search(self.regex_url, link) for link in links))
 
     def test_get_product_url(self):

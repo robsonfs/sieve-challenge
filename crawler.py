@@ -1,3 +1,4 @@
+import re
 import requests
 from bs4 import BeautifulSoup
 
@@ -13,7 +14,7 @@ class Crawler:
     def parse_html(self, html_text):
         return BeautifulSoup(html_text, "html.parser")
 
-    def get_urls(self, parsed_html, css_class=None):
+    def get_urls(self, parsed_html, css_class=None, pattern=None):
         if css_class:
             css_class = "." + css_class
             urls = [
@@ -22,5 +23,11 @@ class Crawler:
             ]
             return urls
 
+        if pattern:
+            return [
+                url.get('href') for url in parsed_html.select('a') if re.search(
+                    pattern, url.get('href')
+                )
+            ]
         urls = [url.get('href') for url in parsed_html.select('a')]
         return urls
