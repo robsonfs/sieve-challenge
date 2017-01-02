@@ -23,6 +23,9 @@ class TestCrawler(TestCase):
                     <a href="http://link2.com">Link 2</a>
                     <a href="https://link3.com">Link 3</a>
                 </p>
+                <a href="http://otherlink1.com">Other Link 1</a>
+                <a href="http://otherlink2.com">Other Link 2</a>
+                <a href="http://otherlink3.com">Other Link 3</a>
             </body>
         </html>
         """
@@ -41,17 +44,17 @@ class TestCrawler(TestCase):
         parsed_html = self.crawler.parse_html(self.html)
         self.assertIsInstance(parsed_html, BeautifulSoup)
 
-    def test_get_urls(self):
+    def test_get_urls_from_css_class(self):
         parsed_html = self.crawler.parse_html(self.html)
         links = self.crawler.get_urls(parsed_html, "links")
         self.assertIs(len(links), 3)
         self.assertTrue(all(re.search(self.regex_url, link) for link in links))
 
-    # def test_get_urls(self):
-    #     parsed_html = self.crawler.parse_html(self.html)
-    #     links = self.crawler.get_urls(parsed_html, "links")
-    #     self.assertIs(len(links), 3)
-    #     self.assertTrue(all(re.search(self.regex_url, link) for link in links))
+    def test_get_urls_from_page(self):
+        parsed_html = self.crawler.parse_html(self.html)
+        links = self.crawler.get_urls(parsed_html)
+        self.assertIs(len(links), 6)
+        self.assertTrue(all(re.search(self.regex_url, link) for link in links))
 
     def test_get_product_url(self):
         pass
