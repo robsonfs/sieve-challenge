@@ -37,7 +37,10 @@ class TestCrawler(TestCase):
         self.assertTrue(is_valid_url(self.crawler.base_url))
 
     def test_get_response(self):
+        visited_urls_before = len(self.crawler.visited_urls)
         response = self.crawler.get_response(url="http://localhost")
+        visited_urls_after = len(self.crawler.visited_urls)
+        self.assertIs(visited_urls_before, visited_urls_after - 1)
         self.assertIsInstance(response, Response)
 
     def test_parse_html(self):
@@ -63,14 +66,5 @@ class TestCrawler(TestCase):
         self.assertIs(len(links), 2)
         self.assertTrue(all(re.search(self.regex_url, link) for link in links))
 
-    def test_get_product_url(self):
-        pass
-
     def test_get_product_details(self):
-        pass
-
-    def test_product_details_to_csv_line(self):
-        pass
-
-    def test_generate_csv_file(self):
         pass

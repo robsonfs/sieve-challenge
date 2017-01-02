@@ -6,9 +6,11 @@ class Crawler:
 
     def __init__(self, base_url="http://www.epocacosmeticos.com.br/"):
         self.base_url = base_url
+        self.visited_urls = set()
 
     def get_response(self, url):
         response = requests.get(url)
+        self.visited_urls.add(url)
         return response
 
     def parse_html(self, html_text):
