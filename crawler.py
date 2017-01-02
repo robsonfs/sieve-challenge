@@ -14,12 +14,13 @@ class Crawler:
         return BeautifulSoup(html_text, "html.parser")
 
     def get_urls(self, parsed_html, css_class=None):
-        links = []
         if css_class:
             css_class = "." + css_class
-            for link in parsed_html.select(css_class)[0].find_all("a"):
-                links.append(link.get("href"))
-            return links
-        for link in parsed_html.select('a'):
-            links.append(link.get("href"))
-        return links
+            urls = [
+                url.get('href') for url in parsed_html.select(
+                    css_class)[0].find_all("a")
+            ]
+            return urls
+
+        urls = [url.get('href') for url in parsed_html.select('a')]
+        return urls
