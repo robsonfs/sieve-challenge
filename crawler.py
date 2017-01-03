@@ -7,6 +7,7 @@ class Crawler:
     def __init__(self, base_url="http://www.epocacosmeticos.com.br/"):
         self.base_url = base_url
         self.visited_urls = set()
+        self.product_urls = set()
 
     def get_response(self, url):
         response = requests.get(url)

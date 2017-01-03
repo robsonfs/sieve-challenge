@@ -75,12 +75,20 @@ class TestCrawler(TestCase):
         self.assertIs(len(links), 2)
         self.assertTrue(all(re.search(self.regex_url, link) for link in links))
 
-    def test_get_product_details(self):
-        p = self.crawler.get_product_details(
-            "http://www.epocacosmeticos.com.br/effaclar-bb-blur-la-roche-posay-base-facial-corretiva/p"
-        )
-        self.assertTrue(p[0] == "Effaclar BB Blur La Roche Posay - Base Facial Corretiva - 30ml")
-        self.assertTrue(p[1] == "Effaclar BB Blur La Roche-Posay - Base Facial Corretiva - Época Cosméticos - Época Cosméticos")
-        self.assertTrue(
-            p[2] == "http://www.epocacosmeticos.com.br/effaclar-bb-blur-la-roche-posay-base-facial-corretiva/p"
-        )
+    # TODO: Mock this test
+    # def test_get_product_details(self):
+    #     p = self.crawler.get_product_details(
+    #         "http://www.epocacosmeticos.com.br/effaclar-bb-blur-la-roche-posay-base-facial-corretiva/p"
+    #     )
+    #     self.assertTrue(p[0] == "Effaclar BB Blur La Roche Posay - Base Facial Corretiva - 30ml")
+    #     self.assertTrue(p[1] == "Effaclar BB Blur La Roche-Posay - Base Facial Corretiva - Época Cosméticos - Época Cosméticos")
+    #     self.assertTrue(
+    #         p[2] == "http://www.epocacosmeticos.com.br/effaclar-bb-blur-la-roche-posay-base-facial-corretiva/p"
+    #     )
+
+    def test_product_urls_has_no_duplicable_elements(self):
+        len_before_add = len(self.crawler.product_urls)
+        self.crawler.product_urls.add("http://epocacosmeticos.com.br/product1/p")
+        self.crawler.product_urls.add("http://epocacosmeticos.com.br/product1/p")
+        len_after_add = len(self.crawler.product_urls)
+        self.assertIs(len_before_add, len_after_add - 1)
