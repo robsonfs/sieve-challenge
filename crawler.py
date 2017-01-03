@@ -33,3 +33,12 @@ class Crawler:
             ]
         urls = [url.get('href') for url in parsed_html.select('a')]
         return urls
+
+    def get_product_details(self, url):
+        product = []
+        resp = self.get_response(url)
+        parsed_html = BeautifulSoup(resp.text, 'html.parser')
+        product.append(parsed_html.h1.text)
+        product.append(parsed_html.title.text)
+        product.append(url)
+        return product
