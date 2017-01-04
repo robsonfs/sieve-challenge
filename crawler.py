@@ -6,16 +6,11 @@ class Crawler:
 
     def __init__(self, base_url="http://www.epocacosmeticos.com.br/"):
         self.base_url = base_url
-        self.visited_urls = set()
         self.product_urls = set()
 
-    def get_response(self, url):
-        response = requests.get(url)
-        self.visited_urls.add(url)
-        return response
-
-    def parse_html(self, html_text):
-        return BeautifulSoup(html_text, "html.parser")
+    def parse_html(self, url):
+        resp = requests.get(url)
+        return BeautifulSoup(resp.text, "html.parser")
 
     def get_urls(self, parsed_html, css_class=None, pattern=None):
         if css_class:
@@ -43,3 +38,6 @@ class Crawler:
         product.append(parsed_html.title.text)
         product.append(url)
         return product
+
+    # def load_products_urls(self):
+    #     products = []
