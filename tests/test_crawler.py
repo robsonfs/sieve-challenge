@@ -32,7 +32,7 @@ class TestCrawler(TestCase):
     def test_get_urls_from_page(self):
         parsed_html = self.crawler.parse_html("http://localhost/tests/")
         links = self.crawler.get_urls(parsed_html)
-        self.assertIs(len(links), 9)
+        self.assertIs(len(links), 5)
         self.assertTrue(all(re.search(self.regex_url, link) for link in links))
 
     def test_get_urls_with_pattern(self):
@@ -53,15 +53,15 @@ class TestCrawler(TestCase):
     #         p[2] == "http://www.epocacosmeticos.com.br/effaclar-bb-blur-la-roche-posay-base-facial-corretiva/p"
     #     )
 
-    def test_product_urls_has_no_duplicable_elements(self):
-        len_before_add = len(self.crawler.product_urls)
-        self.crawler.product_urls.add("http://epocacosmeticos.com.br/product1/p")
-        self.crawler.product_urls.add("http://epocacosmeticos.com.br/product1/p")
-        len_after_add = len(self.crawler.product_urls)
-        self.assertIs(len_before_add, len_after_add - 1)
+    # def test_product_urls_has_no_duplicable_elements(self):
+    #     len_before_add = len(self.crawler.product_urls)
+    #     self.crawler.product_urls.add("http://epocacosmeticos.com.br/product1/p")
+    #     self.crawler.product_urls.add("http://epocacosmeticos.com.br/product1/p")
+    #     len_after_add = len(self.crawler.product_urls)
+    #     self.assertIs(len_before_add, len_after_add - 1)
 
-    # def test_load_products_urls(self):
+    # def test_load_site_urls(self):
     #     # Extrai produtos da url base
     #     # Extrai produtos das urls de categorias
     #     # Extrai produtos das urls de subcategorias
-    #     pass
+    #     self.assertTrue(1 == 2)

@@ -6,7 +6,7 @@ class Crawler:
 
     def __init__(self, base_url="http://www.epocacosmeticos.com.br/"):
         self.base_url = base_url
-        self.product_urls = set()
+        self.site_urls = set()
 
     def parse_html(self, url):
         resp = requests.get(url)
@@ -27,7 +27,9 @@ class Crawler:
                     pattern, url.get('href')
                 )
             ]
-        urls = [url.get('href') for url in parsed_html.select('a')]
+        urls = [
+            url.get('href') for url in parsed_html.select('a') if self.base_url\
+            in url.get('href')]
         return urls
 
     def get_product_details(self, url):
@@ -38,6 +40,3 @@ class Crawler:
         product.append(parsed_html.title.text)
         product.append(url)
         return product
-
-    # def load_products_urls(self):
-    #     products = []
