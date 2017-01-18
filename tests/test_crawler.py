@@ -3,6 +3,7 @@ from unittest import TestCase
 from unittest import mock
 from requests.models import Response
 from bs4 import BeautifulSoup
+import requests
 
 from crawler import Crawler
 from scripts import is_valid_url
@@ -20,14 +21,9 @@ class TestCrawler(TestCase):
     # def test_scrapping(self):
     #     self.crawler.scrapping("http://localhost")
 
-    # @mock.patch('crawler.BeautifulSoup')
-    # @mock.patch('crawler.requests')
-    # def test_parse_html(self, mock_requests, mock_bs4):
-    #     resp = self.crawler.parse_html("http://example.com")
-    #     mock_requests.get.assert_called_with("http://example.com")
-    #
-    #     # parsed_html = self.crawler.parse_html("http://localhost/tests/")
-    #     # self.assertIsInstance(parsed_html, BeautifulSoup)
+    def test_parse_html(self):
+        parsed_html = self.crawler.parse_html("http://localhost/tests/")
+        self.assertIsInstance(parsed_html, BeautifulSoup)
 
     def test_get_urls_from_css_class(self):
         parsed_html = self.crawler.parse_html("http://localhost/tests/")
