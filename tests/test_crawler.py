@@ -1,5 +1,6 @@
 import re
 from unittest import TestCase
+from unittest import mock
 from requests.models import Response
 from bs4 import BeautifulSoup
 
@@ -19,9 +20,14 @@ class TestCrawler(TestCase):
     # def test_scrapping(self):
     #     self.crawler.scrapping("http://localhost")
 
-    def test_parse_html(self):
-        parsed_html = self.crawler.parse_html("http://localhost/tests/")
-        self.assertIsInstance(parsed_html, BeautifulSoup)
+    # @mock.patch('crawler.BeautifulSoup')
+    # @mock.patch('crawler.requests')
+    # def test_parse_html(self, mock_requests, mock_bs4):
+    #     resp = self.crawler.parse_html("http://example.com")
+    #     mock_requests.get.assert_called_with("http://example.com")
+    #
+    #     # parsed_html = self.crawler.parse_html("http://localhost/tests/")
+    #     # self.assertIsInstance(parsed_html, BeautifulSoup)
 
     def test_get_urls_from_css_class(self):
         parsed_html = self.crawler.parse_html("http://localhost/tests/")
@@ -53,15 +59,15 @@ class TestCrawler(TestCase):
     #         p[2] == "http://www.epocacosmeticos.com.br/effaclar-bb-blur-la-roche-posay-base-facial-corretiva/p"
     #     )
 
-    # def test_product_urls_has_no_duplicable_elements(self):
-    #     len_before_add = len(self.crawler.product_urls)
-    #     self.crawler.product_urls.add("http://epocacosmeticos.com.br/product1/p")
-    #     self.crawler.product_urls.add("http://epocacosmeticos.com.br/product1/p")
-    #     len_after_add = len(self.crawler.product_urls)
-    #     self.assertIs(len_before_add, len_after_add - 1)
+    @mock.patch.object(Crawler, 'parse_html')
+    @mock.patch.object(Crawler, 'get_urls')
+    def test_load_site_urls(self, mock_geturls, mock_parse):
+        # self.parse_html
+        # self.get_urls
+        # Extrai produtos das urls de subcategorias
+        crawler = Crawler()
+        home_page = crawler.parse_html(crawler.base_url)
+        crawler.parse_html.assert_called_with(crawler.base_url)
 
-    # def test_load_site_urls(self):
-    #     # Extrai produtos da url base
-    #     # Extrai produtos das urls de categorias
-    #     # Extrai produtos das urls de subcategorias
-    #     self.assertTrue(1 == 2)
+        depts = crawler.get_urls(home_page, css_class="sub_dept")
+        crawler.get_urls.assert_called_with(home_page, css_class="sub_dept")

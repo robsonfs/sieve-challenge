@@ -41,4 +41,29 @@ class Crawler:
         product.append(url)
         return product
 
-    
+    def load_site_urls(self):
+        pattern = re.compile(r'http://www\.epocacosmeticos\.com\.br/.+')
+        urls = {self.base_url}
+
+        home_page = self.parse_html(self.base_url) # Home page parseada
+        depts = self.get_urls(home_page, css_class='sub_dept') # Links das categorias
+
+        # Getting links into category pages
+        for dept in depts:
+            dept_page = self.parse_html(dept)
+            urls.update(self.get_urls(dept_page, pattern=pattern))
+            urls.add(dept)
+
+        # Getting links into home page
+        urls.update(self.get_urls(home_page, pattern=pattern))
+
+        # Getting all links into listed pages
+        all_urls = set()
+        for url in list(urls):
+            page = self.parse_html(url)
+            links = self.get_urls(page)
+            all_urls.update(links)
+
+        self.site_urls.update(all_urls)
+
+        return (len(all_urls) or False)
