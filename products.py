@@ -3,7 +3,8 @@ from collections import namedtuple
 
 class Products:
 
-    def __init__(self):
+    def __init__(self, crawler):
+        self._crawler = crawler
         self.products = []
         self.Product = namedtuple(
             "Product", ["name", "title", "url"]

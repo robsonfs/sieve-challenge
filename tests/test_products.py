@@ -1,11 +1,24 @@
 import unittest
 import os
 from products import Products
+from crawler import Crawler
 
 class TestProducts(unittest.TestCase):
 
     def setUp(self):
-        self.products = Products()
+        crawler = Crawler()
+        self.products = Products(crawler)
+
+    def test_validate_crawler_parameter_on_product_objects(self):
+        error = False
+
+        try:
+            Products("invalid_crawler")
+        except ValueError:
+            error = True
+
+        if not error:
+            self.fail("Call didn't throw a ValueError exception, but it should.")
 
     def test_add(self):
         initial_len = len(self.products)
