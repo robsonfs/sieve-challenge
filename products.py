@@ -1,9 +1,12 @@
 import csv
 from collections import namedtuple
+from crawler import Crawler
 
 class Products:
 
     def __init__(self, crawler):
+        if not isinstance(crawler, Crawler):
+            raise ValueError("crawler must be a Crawler object.")
         self._crawler = crawler
         self.products = []
         self.Product = namedtuple(
