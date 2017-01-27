@@ -8,18 +8,18 @@ class Products:
         if not isinstance(crawler, Crawler):
             raise ValueError("crawler must be a Crawler object.")
         self._crawler = crawler
-        self.products = []
+        self._products = []
         self.Product = namedtuple(
             "Product", ["name", "title", "url"]
         )
 
     def __len__(self):
-        return len(self.products)
+        return len(self._products)
 
     def add(self, name, title, url):
         p = self.Product(name, title, url)
-        if p not in self.products:
-            self.products.append(
+        if p not in self._products:
+            self._products.append(
                 self.Product(name, title, url)
             )
             return True
@@ -34,7 +34,7 @@ class Products:
 
             writer.writeheader()
 
-            for product in self.products:
+            for product in self._products:
                 writer.writerow(
                     {
                         'name': product.name,
