@@ -16,6 +16,9 @@ class Products:
     def __len__(self):
         return len(self._products)
 
+    def load_products(self):
+        self._crawler.load_site_urls()
+
     def add(self, name, title, url):
         p = self.Product(name, title, url)
         if p not in self._products:

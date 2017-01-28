@@ -1,5 +1,6 @@
 import unittest
 import os
+from unittest import mock
 from products import Products
 from crawler import Crawler
 
@@ -50,3 +51,14 @@ class TestProducts(unittest.TestCase):
         self.assertTrue('products.csv' in os.listdir('tests/outputs'))
         os.remove('tests/outputs/products.csv')
         os.rmdir('tests/outputs')
+
+    @mock.patch.object(Crawler, 'load_site_urls')
+    def test_load_products(self, mock_load_urls):
+        # Carregar todas as urls do site
+        crawler = Crawler()
+        products = Products(crawler)
+        products.load_products()
+        crawler.load_site_urls.assert_called_with()
+        # Filtrar as urls de produtos
+        # chamar get_product_details para cada url de produto encontrada
+        # armazenar o resultado da chamada em _products
