@@ -67,3 +67,19 @@ class TestCrawler(TestCase):
 
         depts = crawler.get_urls(home_page, css_class="sub_dept")
         crawler.get_urls.assert_called_with(home_page, css_class="sub_dept")
+
+    def test_filter_urls(self):
+        # Recebe um pattern e um interável como parâmetro
+        # Filtra as urls's do site que casam com o pattern
+        # retorna uma lista com essas urls
+        urls = [
+            "http://www.example.com/ababa/p", "http://www.example.com/baba/p",
+            "http://www.example.com/p/cacaca", "http://www.example.com/p/papapa"
+        ]
+        pattern = r'^http://www\.example\.com/.+/p$'
+        filtered_urls = self.crawler.filter_urls(urls, pattern)
+        expected_urls = [
+            "http://www.example.com/ababa/p", "http://www.example.com/baba/p"
+        ]
+        self.assertTrue(all(p in expected_urls for p in filtered_urls))
+        # self.assertIs(len(filtered_urls), 2)

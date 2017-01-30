@@ -67,3 +67,9 @@ class Crawler:
         self.site_urls.update(all_urls)
 
         return (len(all_urls) or False)
+
+    def filter_urls(self, interable, pattern=None):
+        if not pattern:
+            pattern = r'^http://www\.epocacosmeticos\.com/.+/p$'
+        filtereds = filter(lambda x: re.search(pattern, x), interable)
+        return list(filtereds)
