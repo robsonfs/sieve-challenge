@@ -17,7 +17,9 @@ class Products:
         return len(self._products)
 
     def load_products(self):
+        pattern = r'^http://www\.epocacosmeticos\.com/.+/p$'
         self._crawler.load_site_urls()
+        self._crawler.filter_urls(self._crawler.site_urls, pattern)
 
     def add(self, name, title, url):
         p = self.Product(name, title, url)

@@ -53,12 +53,18 @@ class TestProducts(unittest.TestCase):
         os.rmdir('tests/outputs')
 
     @mock.patch.object(Crawler, 'load_site_urls')
-    def test_load_products(self, mock_load_urls):
-        # Carregar todas as urls do site
+    @mock.patch.object(Crawler, 'filter_urls')
+    def test_load_products(self, mock_filter, mock_load_urls):
         crawler = Crawler()
         products = Products(crawler)
+
+        # Carregar todas as urls do site
         products.load_products()
         crawler.load_site_urls.assert_called_with()
+
         # Filtrar as urls de produtos
+        pattern = r'^http://www\.epocacosmeticos\.com/.+/p$'
+        crawler.filter_urls.assert_called_with(crawler.site_urls, pattern)
+
         # chamar get_product_details para cada url de produto encontrada
         # armazenar o resultado da chamada em _products
